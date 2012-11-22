@@ -2,9 +2,33 @@
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>G</title>
+
+    <script src="../src/sea.js"></script>
+    
+    <script src="../src/util-lang.js"></script>
+    <script src="../src/util-log.js"></script>
+    <script src="../src/util-path.js"></script>
+    <script src="../src/util-fetch.js"></script>
+    <script src="../src/util-deps.js"></script>
+    
+    <script src="../src/module.js"></script>
+    <script src="../src/config.js"></script>
+    <script src="../src/prepare.js"></script>
+    <script src="../src/bootstrap.js"></script>	
+    
+    <!-- config -->
+    <script type="text/javascript" src="libs/seajs.conf.js"></script>
+    
 </head>
 <body>
 	this g test
 </body>
+    <script type="text/javascript">
+        (function(){
+                seajs.use('./deps/a',function(a){
+                    console.log(a);
+                }) 
+        })()
+    </script>
 </html>

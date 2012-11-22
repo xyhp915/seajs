@@ -33,8 +33,9 @@
   Module.prototype._use = function(ids, callback) {
     util.isString(ids) && (ids = [ids])
     var uris = resolve(ids, this.uri)
-
+    
     this._load(uris, function() {
+    	util.log('use:'+arguments[0]);
       // Loads preload files introduced in modules before compiling.
       preload(function() {
         var args = util.map(uris, function(uri) {
@@ -62,7 +63,7 @@
     }
 
     var remain = length
-
+util.log(uris + '---' + remain)
     for (var i = 0; i < length; i++) {
       (function(uri) {
         var module = cachedModules[uri] ||
@@ -71,15 +72,17 @@
         module.status >= STATUS.FETCHED ? onFetched() : fetch(uri, onFetched)
 
         function onFetched() {
+        	util.log(uri);
+           //util.log(cachedModules); 
           // cachedModules[uri] is changed in un-correspondence case
           module = cachedModules[uri]
 
           if (module.status >= STATUS.SAVED) {
             var deps = getPureDependencies(module)
-
+util.log(deps);
             if (deps.length) {
               Module.prototype._load(deps, function() {
-                cb(module)
+                cb(module,'inner')
               })
             }
             else {
@@ -97,8 +100,11 @@
     }
 
     function cb(module) {
+    	util.log(module);
+    	util.log(arguments[1]);
       (module || {}).status < STATUS.READY && (module.status = STATUS.READY)
-      --remain === 0 && callback()
+      util.log(remain);
+      --remain === 0 && callback(arguments[1])
     }
   }
 
@@ -395,7 +401,7 @@
       // Updates module status
       module.status = STATUS.SAVED
     }
-
+    
     return module
   }
 
